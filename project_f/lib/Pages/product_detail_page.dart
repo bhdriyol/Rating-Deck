@@ -102,7 +102,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 25), // Ara boşluk
                     //!Title Text
                     Padding(
                       padding: const EdgeInsets.only(left: 10, top: 5),
@@ -127,7 +127,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 Icons.star_rate_rounded,
                                 color: Color.fromARGB(222, 166, 178, 0),
                               ),
-                              const SizedBox(width: 2),
+                              const SizedBox(width: 2), // Ara boşluk
                               Text(
                                 "4.7",
                                 style: GoogleFonts.inter(
@@ -135,7 +135,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         fontWeight: FontWeight.w500,
                                         fontSize: screenSize.width * 0.035)),
                               ),
-                              const SizedBox(width: 20),
+                              const SizedBox(width: 20), // Ara boşluk
                               Text(
                                 "155 Reviews",
                                 style: GoogleFonts.inter(
@@ -172,7 +172,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 20), // Ara boşluk
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
@@ -183,7 +183,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 fontSize: screenSize.width * 0.05)),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 10), // Ara boşluk
                     //!Info Text
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
@@ -193,7 +193,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             fontSize: screenSize.width * 0.04),
                       ),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 50), // Ara boşluk
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: const Divider(
@@ -225,7 +225,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           const SizedBox(
                             width: 15,
-                          ),
+                          ), // Ara boşluk
                           const Icon(Icons.arrow_forward_ios),
                         ],
                       ),
@@ -239,8 +239,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         height: 25,
                       ),
                     ),
-                    const SizedBox(
-                        height: 100), // Alt kısım için boşluk bırakılıyor
+                    const SizedBox(height: 100), // Alt kısım boşluk
                   ],
                 ),
               ),
