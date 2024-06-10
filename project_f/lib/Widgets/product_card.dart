@@ -1,21 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_f/Pages/product_detail_page.dart';
-
-class Product {
-  final List<String> imagePaths;
-  final String title;
-  final String description;
-  final String price;
-  final String category;
-
-  Product(
-      {required this.imagePaths,
-      required this.title,
-      required this.description,
-      required this.price,
-      required this.category});
-}
+import 'package:project_f/product_manager.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -26,6 +12,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        ProductManager.setProductId(product.id);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -43,7 +30,7 @@ class ProductCard extends StatelessWidget {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(10.0)),
                 child: Image.asset(
-                  product.imagePaths[0],
+                  product.imagePaths.first,
                   width: double.infinity,
                   fit: BoxFit.contain,
                 ),

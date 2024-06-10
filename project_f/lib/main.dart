@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:project_f/bottom_navigation_bar.dart';
+import 'package:project_f/product_manager.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ProductManager(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

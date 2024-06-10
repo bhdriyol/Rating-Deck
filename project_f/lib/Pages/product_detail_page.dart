@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:project_f/Widgets/product_card.dart';
+import 'package:project_f/Pages/reviews_page.dart';
+import 'package:project_f/product_manager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -102,7 +103,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 25), // Ara boşluk
+                    const SizedBox(height: 25),
                     //!Title Text
                     Padding(
                       padding: const EdgeInsets.only(left: 10, top: 5),
@@ -123,21 +124,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         children: [
                           Row(
                             children: [
-                              const Icon(
-                                Icons.star_rate_rounded,
-                                color: Color.fromARGB(222, 166, 178, 0),
-                              ),
-                              const SizedBox(width: 2), // Ara boşluk
+                              const Icon(Icons.star_rate_rounded,
+                                  color: Colors.black),
+                              const SizedBox(width: 2),
                               Text(
-                                "4.7",
+                                widget.product.rating.toString(),
                                 style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: screenSize.width * 0.035)),
                               ),
-                              const SizedBox(width: 20), // Ara boşluk
+                              const SizedBox(width: 20),
                               Text(
-                                "155 Reviews",
+                                "${widget.product.comments.length} Reviews",
                                 style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         fontWeight: FontWeight.w500,
@@ -172,7 +171,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 20), // Ara boşluk
+                    const SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
@@ -183,7 +182,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                 fontSize: screenSize.width * 0.05)),
                       ),
                     ),
-                    const SizedBox(height: 10), // Ara boşluk
+                    const SizedBox(height: 10),
                     //!Info Text
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
@@ -193,7 +192,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             fontSize: screenSize.width * 0.04),
                       ),
                     ),
-                    const SizedBox(height: 50), // Ara boşluk
+                    const SizedBox(height: 50),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: const Divider(
@@ -217,7 +216,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "155 Reviews",
+                            "${widget.product.comments.length} Reviews",
                             style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                     fontWeight: FontWeight.w500,
@@ -225,11 +224,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                           const SizedBox(
                             width: 15,
-                          ), // Ara boşluk
+                          ),
                           const Icon(Icons.arrow_forward_ios),
                         ],
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ReviewsPage(),
+                          ),
+                        );
+                      },
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -239,7 +245,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         height: 25,
                       ),
                     ),
-                    const SizedBox(height: 100), // Alt kısım boşluk
+                    const SizedBox(height: 100),
                   ],
                 ),
               ),

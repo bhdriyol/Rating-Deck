@@ -3,7 +3,7 @@ import 'package:project_f/Pages/favorites_page.dart';
 import 'package:project_f/Pages/home_page.dart';
 import 'package:project_f/Pages/notification_page.dart';
 import 'package:project_f/Pages/search_page.dart';
-import 'package:project_f/Pages/settings_page.dart';
+import 'package:project_f/Pages/user_page.dart';
 import 'package:project_f/models/nav_item_model.dart';
 import 'package:rive/rive.dart';
 
@@ -25,7 +25,7 @@ class _BottomNavWithAnimatedIcons extends State<BottomNavWithAnimatedIcons> {
     const SearchPage(),
     const FavoritesPage(),
     const NotificationPage(),
-    const SettingsPage(),
+    const UserPage(),
   ];
   int selectedNavIndex = 0;
 

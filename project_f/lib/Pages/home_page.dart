@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:project_f/Widgets/product_card.dart';
+import 'package:project_f/product_manager.dart';
+import 'package:provider/provider.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -13,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String selectedCategory = 'All';
   String searchText = '';
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   void _selectCategory(String category) {
     setState(() {
@@ -21,43 +23,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  List<Product> products = [
-    Product(
-      imagePaths: [
-        "assets/images/mbp24.png",
-        "assets/images/mbp242.png",
-        "assets/images/mbp243.png",
-      ],
-      title: 'Macbook Pro',
-      description: '14" M3 8CPU 10GPU 16 GB 512 GB Space Gray',
-      price: "60.999,00",
-      category: 'Computers',
-    ),
-    Product(
-      imagePaths: [
-        "assets/images/iph15.png",
-        "assets/images/iph152.png",
-        "assets/images/iph153.png",
-      ],
-      title: 'iPhone 15',
-      description: '6.1" iPhone 15 128 GB Black',
-      price: "50.999,00",
-      category: 'Phones',
-    ),
-  ];
-
-  List<Product> _getFilteredProducts() {
+  List<Product> _getFilteredProducts(List<Product> products) {
     List<Product> filteredProducts = products;
 
     if (selectedCategory != 'All') {
       filteredProducts = filteredProducts
-          .where((product) => product.category == selectedCategory)
+          .where((Product product) => product.category == selectedCategory)
           .toList();
     }
 
     if (searchText.isNotEmpty) {
       filteredProducts = filteredProducts
-          .where((product) =>
+          .where((Product product) =>
               product.title.toLowerCase().contains(searchText.toLowerCase()))
           .toList();
     }
@@ -67,6 +44,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final productManager = Provider.of<ProductManager>(context);
+    final products = _getFilteredProducts(productManager.products);
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -77,7 +57,6 @@ class _HomePageState extends State<HomePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              //!Main Text
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
                 child: Text(
@@ -88,7 +67,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              //!Search Box
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(0, 20, 5, 0),
@@ -115,19 +93,6 @@ class _HomePageState extends State<HomePage> {
                         searchBoxColour:
                             const Color.fromARGB(255, 201, 201, 201),
                         buttonColour: const Color.fromARGB(255, 239, 239, 238),
-                        //!Button Actions
-                        /*onExpansionComplete: () {
-            debugPrint(
-                'do something just after searchbox is opened.');
-          },
-          onCollapseComplete: () {
-            debugPrint(
-                'do something just after searchbox is closed.');
-          },
-          onPressButton: (isSearchBarOpens) {
-            debugPrint(
-                'do something before animation started. It\'s the ${isSearchBarOpens ? 'opening' : 'closing'} animation');
-          },*/
                         trailingWidget: const Icon(
                           Icons.search_rounded,
                           size: 25,
@@ -152,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-              )
+              ),
             ],
           ),
           const Divider(
@@ -176,9 +141,12 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               padding: const EdgeInsets.all(23.0),
               color: Colors.transparent,
-              child: ProductGridPage(products: _getFilteredProducts()),
+              child: ProductGridPage(products: products),
             ),
           ),
+          const SizedBox(
+            height: 60,
+          )
         ],
       ),
     );
