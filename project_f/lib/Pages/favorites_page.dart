@@ -17,19 +17,28 @@ class FavoritesPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            //!Title
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                "Your Favorites",
-                style: GoogleFonts.inter(
-                    textStyle: const TextStyle(
-                        fontWeight: FontWeight.w800, fontSize: 32)),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                //!Title
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 0, 0),
+                  child: Text(
+                    "Your Favorites",
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 35,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 20,
+            const Divider(
+              color: Colors.black,
+              thickness: 3,
+              height: 25,
             ),
+            const SizedBox(height: 10),
             //!List Elements
             Expanded(
               child: Consumer<ProductManager>(
