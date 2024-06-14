@@ -1,19 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project_f/product_manager.dart';
 import 'package:rate_in_stars/rate_in_stars.dart';
-
-class Reviews {
-  final double rating;
-  final String description;
-
-  Reviews({
-    required this.rating,
-    required this.description,
-  });
-}
 
 class ReviewsCard extends StatefulWidget {
   final Reviews reviews;
-
   const ReviewsCard({
     super.key,
     required this.reviews,
@@ -58,7 +48,7 @@ class _ReviewsCardState extends State<ReviewsCard> {
             Row(
               children: [
                 RatingStars(
-                  rating: widget.reviews.rating,
+                  rating: widget.reviews.rating.toDouble(),
                   editable: false,
                   iconSize: 28,
                   color: Colors.black,

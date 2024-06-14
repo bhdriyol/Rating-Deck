@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project_f/Widgets/reviews_card.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Product {
   final List<String> imagePaths;
@@ -21,51 +23,78 @@ class Product {
     required this.id,
     this.comments = const [],
   });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    var list = json['imagePaths'] as List;
+    List<String> imagePathsList = list.map((i) => i.toString()).toList();
+
+    var commentsFromJson = json['comments'] as List;
+    List<Reviews> commentsList =
+        commentsFromJson.map((i) => Reviews.fromJson(i)).toList();
+
+    double? rating = json['rating'] is int
+        ? (json['rating'] as int).toDouble()
+        : json['rating'];
+
+    return Product(
+      imagePaths: imagePathsList,
+      title: json['title'],
+      description: json['description'],
+      price: json['price'],
+      category: json['category'],
+      rating: rating,
+      id: json['id'],
+      comments: commentsList,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    List<Map> comments = this.comments.map((i) => i.toJson()).toList();
+
+    return {
+      'imagePaths': imagePaths,
+      'title': title,
+      'description': description,
+      'price': price,
+      'category': category,
+      'rating': rating,
+      'id': id,
+      'comments': comments,
+    };
+  }
+}
+
+class Reviews {
+  final int rating;
+  final String description;
+
+  Reviews({required this.rating, required this.description});
+
+  factory Reviews.fromJson(Map<String, dynamic> json) {
+    return Reviews(
+      rating: json['rating'],
+      description: json['description'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'rating': rating,
+      'description': description,
+    };
+  }
+}
+
+Future<List<Product>> fetchProducts() async {
+  final String response =
+      await rootBundle.loadString('assets/data/products.json');
+  final data = await json.decode(response) as List;
+  return data.map((json) => Product.fromJson(json)).toList();
 }
 
 class ProductManager with ChangeNotifier {
-  final List<Product> _products = [
-    Product(
-        imagePaths: [
-          "assets/images/iph15.png",
-          "assets/images/iph152.png",
-          "assets/images/iph153.png",
-        ],
-        title: 'iPhone 15',
-        description: '6.1" iPhone 15 128 GB Black',
-        price: "50.999,00",
-        category: 'Phones',
-        rating: 5,
-        id: 0,
-        comments: [
-          Reviews(
-              rating: 5,
-              description:
-                  "Paketleme çok iyi yapılmıştı, 2 gün içinde elime ulaştı. iPhone 11’den geçtim, günlük kullanımda gözle görülür bir fark göremedim ama ekran renk tonu daha sarımtırak ve daha az göz yorucu. 11 ve 15 arasındaki farkları fotograf çekim kalitesi dışında oyun oynamayan ya da foto/video düzenleme vs yapmayan normal bir kullanıcının anlama şansı pek yok. Sadece konuşurken seste kısılma ve batarya %80 altına düştüğü için değiştirdim."),
-          Reviews(rating: 5, description: "Mükemmeeeel hızlı teslimat"),
-        ]),
-    Product(
-        imagePaths: [
-          "assets/images/mbp24.png",
-          "assets/images/mbp242.png",
-          "assets/images/mbp243.png",
-        ],
-        title: 'MacBook Pro',
-        description: 'Apple MacBook Pro M3 Pro 18GB 512GB SSD MacOS 14"',
-        price: "60.999,00",
-        category: 'Computers',
-        rating: 5,
-        id: 1,
-        comments: [
-          Reviews(rating: 5, description: "Sıkıntısız elime ulaştı"),
-          Reviews(
-              rating: 5,
-              description:
-                  "Alet canavar zaten fazla söze gerek yok. Ama benim gibi düşünen olmuşsa diye şunu belirtebilirim, ben bundan önce M1 Air kullanıyordum performansı gayet yeterliydi, fansız olması muhteşemdi hiç ses yapmıyordu doğal olarak. Bu makinenin fanlı olmasından dolayı acaba ses yapar mı diye endişe ediyordum ama günlük kullanımda makineyi ısıtacak bir işlem yapmazsanız fansız gibi hiç çalışmaya ihtiyaç duymadığından ses de sıfır."),
-        ]),
-  ];
-
-  final List<Product> _favorites = [];
+  List<Product> _products = [];
+  List<Product> _favorites = [];
 
   List<Product> get products => _products;
   List<Product> get favorites => _favorites;
@@ -79,21 +108,48 @@ class ProductManager with ChangeNotifier {
   List<Reviews> getCommentsBySelectedProductId() {
     if (_selectedProductId == -1) return [];
 
-    final product =
-        _products.firstWhere((product) => product.id == _selectedProductId);
-    return product.comments;
+    try {
+      final product =
+          _products.firstWhere((product) => product.id == _selectedProductId);
+      return product.comments;
+    } catch (e) {
+      return [];
+    }
   }
 
-  void toggleFavorite(Product product) {
+  void toggleFavorite(Product product) async {
     if (_favorites.contains(product)) {
       _favorites.remove(product);
     } else {
       _favorites.add(product);
     }
+    await saveFavorites();
     notifyListeners();
   }
 
   bool isFavorite(Product product) {
     return _favorites.contains(product);
+  }
+
+  Future<void> loadProducts() async {
+    _products = await fetchProducts();
+    await loadFavorites();
+    notifyListeners();
+  }
+
+  Future<void> saveFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favoriteIds = _favorites.map((product) => product.id).toList();
+    await prefs.setStringList(
+        'favoriteIds', favoriteIds.map((id) => id.toString()).toList());
+  }
+
+  Future<void> loadFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final favoriteIds = prefs.getStringList('favoriteIds') ?? [];
+
+    _favorites = _products
+        .where((product) => favoriteIds.contains(product.id.toString()))
+        .toList();
   }
 }

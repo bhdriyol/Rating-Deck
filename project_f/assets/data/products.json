@@ -1,0 +1,53 @@
+[
+    {
+      "imagePaths": [
+        "assets/images/iph15.png",
+        "assets/images/iph152.png",
+        "assets/images/iph153.png"
+      ],
+      "title": "iPhone 15",
+      "description": "6.1\" iPhone 15 128 GB Black",
+      "price": "50.999,00",
+      "category": "Phones",
+      "rating": 5,
+      "id": 0,
+      "comments": [
+        {
+          "rating": 5,
+          "description": "Paketleme çok iyi yapılmıştı, 2 gün içinde elime ulaştı. iPhone 11’den geçtim, günlük kullanımda gözle görülür bir fark göremedim ama ekran renk tonu daha sarımtırak ve daha az göz yorucu. 11 ve 15 arasındaki farkları fotograf çekim kalitesi dışında oyun oynamayan ya da foto/video düzenleme vs yapmayan normal bir kullanıcının anlama şansı pek yok. Sadece konuşurken seste kısılma ve batarya %80 altına düştüğü için değiştirdim."
+        },
+        {
+          "rating": 5,
+          "description": "Mükemmeeeel hızlı teslimat"
+        }
+      ]
+    },
+    {
+      "imagePaths": [
+        "assets/images/mbp24.png",
+        "assets/images/mbp242.png",
+        "assets/images/mbp243.png"
+      ],
+      "title": "MacBook Pro",
+      "description": "Apple MacBook Pro M3 Pro 18GB 512GB SSD MacOS 14\"",
+      "price": "60.999,00",
+      "category": "Computers",
+      "rating": 5,
+      "id": 1,
+      "comments": [
+        {
+          "rating": 5,
+          "description": "Sıkıntısız elime ulaştı"
+        },
+        {
+          "rating": 5,
+          "description": "Alet canavar zaten fazla söze gerek yok. Ama benim gibi düşünen olmuşsa diye şunu belirtebilirim, ben bundan önce M1 Air kullanıyordum performansı gayet yeterliydi, fansız olması muhteşemdi hiç ses yapmıyordu doğal olarak. Bu makinenin fanlı olmasından dolayı acaba ses yapar mı diye endişe ediyordum ama günlük kullanımda makineyi ısıtacak bir işlem yapmazsanız fansız gibi hiç çalışmaya ihtiyaç duymadığından ses de sıfır."
+        },
+        {
+          "rating": 1,
+          "description": "leş"
+        }
+      ]
+    }
+  ]
+  

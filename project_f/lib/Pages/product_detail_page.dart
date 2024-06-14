@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:like_button/like_button.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:provider/provider.dart';
 import 'package:project_f/Pages/reviews_page.dart';
 import 'package:project_f/product_manager.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -17,6 +18,7 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
   final PageController _pageController = PageController();
+
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -31,22 +33,31 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           icon: const Icon(Icons.arrow_back_ios_new_outlined),
         ),
         actions: [
-          LikeButton(
-            padding: const EdgeInsets.only(right: 10),
-            size: 30,
-            circleColor: const CircleColor(
-              start: Colors.deepPurpleAccent,
-              end: Colors.deepPurpleAccent,
-            ),
-            bubblesColor: const BubblesColor(
-              dotPrimaryColor: Color.fromARGB(255, 0, 0, 0),
-              dotSecondaryColor: Color.fromARGB(255, 0, 0, 0),
-            ),
-            likeBuilder: (bool isLiked) {
-              return Icon(
-                Icons.favorite,
-                color: isLiked ? Colors.deepPurpleAccent : Colors.grey,
+          Consumer<ProductManager>(
+            builder: (context, productManager, child) {
+              return LikeButton(
+                padding: const EdgeInsets.only(right: 10),
                 size: 30,
+                circleColor: const CircleColor(
+                  start: Colors.deepPurpleAccent,
+                  end: Colors.deepPurpleAccent,
+                ),
+                bubblesColor: const BubblesColor(
+                  dotPrimaryColor: Color.fromARGB(255, 0, 0, 0),
+                  dotSecondaryColor: Color.fromARGB(255, 0, 0, 0),
+                ),
+                isLiked: productManager.isFavorite(widget.product),
+                likeBuilder: (bool isLiked) {
+                  return Icon(
+                    Icons.favorite,
+                    color: isLiked ? Colors.deepPurpleAccent : Colors.grey,
+                    size: 30,
+                  );
+                },
+                onTap: (bool isLiked) async {
+                  productManager.toggleFavorite(widget.product);
+                  return !isLiked;
+                },
               );
             },
           ),
@@ -277,19 +288,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 style: GoogleFonts.inter(
                     textStyle: TextStyle(
                         fontWeight: FontWeight.w500,
-                        fontSize: screenSize.width * 0.0375)),
+                        fontSize: screenSize.width * 0.045)),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 }
 

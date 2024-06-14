@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => ProductManager(),
-      child: MyApp(),
+      create: (context) => ProductManager()..loadProducts(),
+      child: const MyApp(),
     ),
   );
 }
