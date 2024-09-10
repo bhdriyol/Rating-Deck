@@ -10,7 +10,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 class ProductDetailPage extends StatefulWidget {
   final Product product;
 
-  const ProductDetailPage({Key? key, required this.product}) : super(key: key);
+  const ProductDetailPage({super.key, required this.product});
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -304,10 +304,10 @@ class PhotoViewPage extends StatefulWidget {
   final int initialIndex;
 
   const PhotoViewPage({
-    Key? key,
+    super.key,
     required this.imagePaths,
     required this.initialIndex,
-  }) : super(key: key);
+  });
 
   @override
   _PhotoViewPageState createState() => _PhotoViewPageState();

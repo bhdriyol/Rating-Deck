@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:searchbar_animation/searchbar_animation.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
 class ProductGridPage extends StatelessWidget {
   final List<Product> products;
 
-  ProductGridPage({required this.products});
+  const ProductGridPage({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
